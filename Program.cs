@@ -4,6 +4,8 @@ using csharp_gestore_eventi.Exceptions;
 Evento evento = CreaEvento();
 
 Console.WriteLine(evento.ToString());
+
+// chiede all'utente se vuole disdire/prenotare e ritorna la risposta in booleano
 bool ChiediPrenotaDisdici(string arg)
 {
     string risp = Chiedi("Vuoi " + arg + " dei posti?(si/no)");
@@ -12,6 +14,7 @@ bool ChiediPrenotaDisdici(string arg)
     return false;
 }
 
+// chiede all'utente quanti posti vuole disdire/prenotare e poi stampa i posti
 void PrenotaDisdici(string arg, Evento evento)
 {
     int risp = ChiediInt("Quanti posti vuoi " + arg + "?");
@@ -28,7 +31,7 @@ void PrenotaDisdici(string arg, Evento evento)
     StampaPosti(evento);
 }
 
-
+// stampa lo stato dei posti di un evento
 void StampaPosti(Evento evento)
 {
     Console.WriteLine("Numero di posti prenotati = {0}", evento.PostiPrenotati);
