@@ -61,7 +61,7 @@ public class Evento
         PostiPrenotati = 0;
     }
 
-    private int PostiDisponibili()
+    public int PostiDisponibili()
     {
         return MaxPosti - PostiPrenotati;
     }

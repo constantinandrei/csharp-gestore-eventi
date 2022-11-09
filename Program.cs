@@ -4,6 +4,36 @@ using csharp_gestore_eventi.Exceptions;
 Evento evento = CreaEvento();
 
 Console.WriteLine(evento.ToString());
+bool ChiediPrenotaDisdici(string arg)
+{
+    string risp = Chiedi("Vuoi " + arg + " dei posti?(si/no)");
+    if (risp.Equals("si"))
+        return true;
+    return false;
+}
+
+void PrenotaDisdici(string arg, Evento evento)
+{
+    int risp = ChiediInt("Quanti posti vuoi " + arg + "?");
+    if (arg.Equals("prenotare"))
+    {
+        evento.PrenotaPosti(risp);
+    }
+
+    if (arg.Equals("disdire"))
+    {
+        evento.DisdiciPosti(risp);
+    }
+
+    StampaPosti(evento);
+}
+
+
+void StampaPosti(Evento evento)
+{
+    Console.WriteLine("Numero di posti prenotati = {0}", evento.PostiPrenotati);
+    Console.WriteLine("Numero di posti disponibili = {0}", evento.PostiDisponibili());
+}
 
 Evento CreaEvento()
 {
@@ -12,8 +42,28 @@ Evento CreaEvento()
     DateTime dataEvento = CreaData(dataStringa);
     int postiTotali = ChiediInt("Inserisci il numero di posti totali:");
 
-    return new Evento(titolo, dataEvento, postiTotali);
+    evento =  new Evento(titolo, dataEvento, postiTotali);
+    // chiedo all'utente se vuole prenotare dei posti 
 
+    if (ChiediPrenotaDisdici("prenotare"))
+    {
+        // chiedo se vuole disdire dei posti e poi sottrago fino a quando non risponde no
+        PrenotaDisdici("prenotare", evento);
+        bool disdire = true;
+        while (disdire)
+        {
+            disdire = ChiediPrenotaDisdici("disdire");
+            if (disdire)
+            {
+                PrenotaDisdici("disdire", evento);
+            }
+        }
+        return evento;
+    }
+    // se risponde no allora non faccio vedere la schermata della disdetta dei posti
+    return evento;
+    
+    
 }
 
 string Chiedi(string message)
