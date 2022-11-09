@@ -49,15 +49,29 @@ public class Evento
             {
                 throw new GestoreEventiException("Il numero di posti disponibili deve essere almeno 1");
             }
+            _maxPosti = value;
         }
     }
-    public int PostiPrenotati { get; }
+    public int PostiPrenotati { get; private set; }
     public Evento(string titolo, DateTime data, int maxPosti)
     {
         Titolo = titolo;
         Data = data;
         MaxPosti = maxPosti;
         PostiPrenotati = 0;
+    }
+
+    private int PostiDisponibili()
+    {
+        return MaxPosti - PostiPrenotati;
+    }
+    public void PrenotaPosti(int posti)
+    {
+        if (DateTime.Now > Data)
+            throw new GestoreEventiException("Questo evento è già terminato, non è più possibile prenotare posti");
+        if (PostiDisponibili() < posti)
+            throw new GestoreEventiException("Non ci sono abbastanza posti diponibili per questo evento");
+        PostiPrenotati += posti;
     }
 }
 
