@@ -26,6 +26,41 @@ public class ProgrammaEventi
         }
     }
 
-    
+    public void AggiungiEvento(Evento evento)
+    {
+        Eventi.Add(evento);
+    }
+
+    public List<Evento> EventiInData(DateTime data)
+    {
+        List<Evento> list = new List<Evento>();
+        foreach (Evento evento in Eventi)
+        {
+            if (data.Date == evento.Data.Date)
+            {
+                list.Add(evento);
+            }
+        }
+        return list;
+    }
+
+    public static void StampaListaEventi(List<Evento> eventi)
+    {
+        foreach (Evento evento in eventi)
+        {
+            Console.WriteLine(evento.ToString());
+        }
+    }
+
+    public int NumeroEventi()
+    {
+        return Eventi.Count;
+    }
+
+    public void StampaProgramma()
+    {
+        Console.WriteLine(Titolo);
+        StampaListaEventi(Eventi);
+    }
 }
 
