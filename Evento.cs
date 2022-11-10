@@ -93,11 +93,21 @@ public class Evento
 
     public static Evento CreaEvento()
     {
-        string titolo = MyUtilities.Chiedi("Inserisci il nome dell'evento:");
-        DateTime dataEvento = MyUtilities.CreaData("Inserisci la data dell'evento (gg/mm/yyyy):");
-        int postiTotali = MyUtilities.ChiediInt("Inserisci il numero di posti totali:");
-
-        Evento evento = new Evento(titolo, dataEvento, postiTotali);
+        Evento evento = null;
+        while (evento == null)
+        {
+            try
+            {
+                string titolo = MyUtilities.Chiedi("Inserisci il nome dell'evento:");
+                DateTime dataEvento = MyUtilities.CreaData("Inserisci la data dell'evento (gg/mm/yyyy):");
+                int postiTotali = MyUtilities.ChiediInt("Inserisci il numero di posti totali:");
+                evento = new Evento(titolo, dataEvento, postiTotali);
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        
         // chiedo all'utente se vuole prenotare dei posti 
 
         if (ChiediPrenotaDisdici("prenotare"))
@@ -131,6 +141,12 @@ public class Evento
     public static bool ChiediPrenotaDisdici(string arg)
     {
         string risp = MyUtilities.Chiedi("Vuoi " + arg + " dei posti?(si/no)");
+
+        while (!risp.Equals("si") && !risp.Equals("no"))
+        {
+            Console.WriteLine("Inserire si oppure no");
+            risp = MyUtilities.Chiedi("Vuoi " + arg + " dei posti?(si/no)");
+        }
         if (risp.Equals("si"))
             return true;
         return false;
