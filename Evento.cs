@@ -94,8 +94,7 @@ public class Evento
     public static Evento CreaEvento()
     {
         string titolo = MyUtilities.Chiedi("Inserisci il nome dell'evento:");
-        string dataStringa = MyUtilities.Chiedi("Inserisci la data dell'evento (gg/mm/yyyy):");
-        DateTime dataEvento = MyUtilities.CreaData(dataStringa);
+        DateTime dataEvento = MyUtilities.CreaData("Inserisci la data dell'evento (gg/mm/yyyy):");
         int postiTotali = MyUtilities.ChiediInt("Inserisci il numero di posti totali:");
 
         Evento evento = new Evento(titolo, dataEvento, postiTotali);

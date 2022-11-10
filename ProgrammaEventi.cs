@@ -119,8 +119,7 @@ public class ProgrammaEventi
 
     public void StampaEventiPerData()
     {
-        string dataStringa = MyUtilities.Chiedi("Inserire una data per sapere che eventi ci saranno");
-        DateTime data = MyUtilities.CreaData(dataStringa);
+        DateTime data = MyUtilities.CreaData("Inserire una data per sapere che eventi ci saranno (dd/mm/yyyy)");
         ProgrammaEventi.StampaListaEventi(EventiInData(data));
     }
 }
