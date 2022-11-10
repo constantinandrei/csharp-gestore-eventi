@@ -90,18 +90,25 @@ public class ProgrammaEventi
             if (programma.Eventi.Count > 0){
                 Console.WriteLine("Eventi già inseriti:");
 
-                foreach (Evento evento in programma.Eventi)
-                {
-                    Console.WriteLine(evento.ToString());
-                }
+                ProgrammaEventi.StampaListaEventi(programma.Eventi);
             }
             
             try
             {
                 Console.WriteLine();
                 Console.WriteLine("Inserimento evento {0} / {1}", programma.Eventi.Count() + 1, numeroEventi);
-                Evento evento = Evento.CreaEvento();
-                programma.AggiungiEvento(evento);
+                
+                bool eConferenza = MyUtilities.SiNo("Questo evento è una conferenza?");
+                if (eConferenza)
+                {
+                    Conferenza conferenza =  Conferenza.CreaConferenza();
+                    programma.AggiungiEvento((Evento)conferenza);
+                } else
+                {
+                    Evento evento = Evento.ChiediDatiEvento();
+                    programma.AggiungiEvento(evento);
+                }
+                
             } catch (Exception e){
                 Console.WriteLine(e.Message);
                 MyUtilities.Continua();

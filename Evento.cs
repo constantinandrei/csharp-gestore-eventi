@@ -93,7 +93,7 @@ public class Evento
         return Data.ToString("dd/MM/yyyy") + " - " + Titolo;
     }
 
-    public static Evento CreaEvento()
+    public static Evento ChiediDatiEvento()
     {
         Evento evento = null;
         while (evento == null)
@@ -104,17 +104,25 @@ public class Evento
                 DateTime dataEvento = MyUtilities.CreaData("Inserisci la data dell'evento (gg/mm/yyyy):");
                 int postiTotali = MyUtilities.ChiediInt("Inserisci il numero di posti totali:");
                 evento = new Evento(titolo, dataEvento, postiTotali);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
         }
-        
-        // chiedo all'utente se vuole prenotare dei posti 
 
+        Console.WriteLine("Evento Inserito correttamente");
+        Console.WriteLine(evento.ToString());
+        Console.WriteLine();
+        MyUtilities.Continua();
+        return evento;
+    }
+
+    public static Evento GestionePostiEvento(Evento evento)
+    {
         if (ChiediPrenotaDisdici("prenotare"))
         {
-            // chiedo se vuole disdire dei posti e poi sottrago fino a quando non risponde no
+            
             PrenotaDisdici("prenotare", evento);
             bool disdire = true;
             while (disdire)
@@ -131,12 +139,16 @@ public class Evento
             MyUtilities.Continua();
             return evento;
         }
-        // se risponde no allora non faccio vedere la schermata della disdetta dei posti
-        Console.WriteLine("Evento Inserito correttamente");
-        Console.WriteLine(evento.ToString());
-        Console.WriteLine();
-        MyUtilities.Continua();
+
         return evento;
+    }
+
+    public static Evento CreaEvento()
+    {
+        
+        Evento evento = ChiediDatiEvento();
+        return GestionePostiEvento(evento);
+        
     }
 
     // chiede all'utente se vuole disdire/prenotare e ritorna la risposta in booleano

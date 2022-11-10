@@ -38,4 +38,37 @@ public class Conferenza : Evento
         Relatore = relatore;
         Prezzo = prezzo;
     }
+
+    public string PrezzoFormat()
+    {
+        return Prezzo.ToString("0.00");
+    }
+
+    public override string ToString()
+    {
+        return base.ToString() + " - " + Relatore + " - " + PrezzoFormat() + " euro";
+    }
+
+    public static Conferenza CreaConferenza()
+    {
+        Evento evento = Evento.ChiediDatiEvento();
+        Conferenza conferenza = null;
+        while (conferenza == null)
+        {
+            try
+            {
+                string relatore = MyUtilities.Chiedi("Inserisci il nome del relatore");
+                double prezzo = MyUtilities.ChiediDouble("Inserisci il prezzo del biglietto");
+
+                conferenza = new Conferenza(evento.Titolo, evento.Data, evento.MaxPosti, relatore, prezzo);
+            } 
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        return conferenza;
+    }
+
+
 }

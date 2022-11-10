@@ -12,6 +12,23 @@
         return Convert.ToInt32(Console.ReadLine());
     }
 
+    public static double ChiediDouble(string message)
+    {
+        double nr = 0.0;
+        while (nr == 0)
+        {
+            try
+            {
+                nr = Convert.ToDouble(MyUtilities.Chiedi(message));
+            } catch (Exception e)
+            {
+                Console.WriteLine("Non è stato inserito un prezzo valido");
+            }
+        }
+
+        return nr;
+    }
+
    public static DateTime CreaData(string messaggio)
     {
         DateTime? nuovaData = null;
@@ -36,5 +53,35 @@
     {
         Console.WriteLine("Premi Invio per Continuare");
         Console.ReadLine();
+    }
+
+    public static bool SiNo(string message)
+    {
+        bool invalidAnswer = true;
+        string userAnswer = null;
+        while (invalidAnswer)
+        {
+            userAnswer = Chiedi(message);
+            if (userAnswer.Equals("si") || userAnswer.Equals("no"))
+            {
+                invalidAnswer = false;
+                if (userAnswer.Equals("si"))
+                {
+                    return true;
+                }
+                    
+                if (userAnswer.Equals("no"))
+                {
+                    return false;
+                }
+                    
+            } 
+            
+             Console.WriteLine("Risposta non valida. Sceliere 'si' oppure 'no");
+                 
+        }
+
+        return invalidAnswer;
+
     }
 }
