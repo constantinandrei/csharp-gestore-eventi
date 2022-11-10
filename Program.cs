@@ -26,5 +26,3 @@ while (!userChoise.Equals("esc"))
             break;
     }
 }
-
-
