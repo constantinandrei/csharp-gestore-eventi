@@ -120,6 +120,12 @@ public class ProgrammaEventi
 
         programma.StampaEventiPerData();
 
+        Console.WriteLine();
+        if (MyUtilities.SiNo("Vuoi esportare il programma?"))
+        {
+            programma.EsportaProgramma();
+        }
+
         MyUtilities.Continua();
 
     }
@@ -128,6 +134,20 @@ public class ProgrammaEventi
     {
         DateTime data = MyUtilities.CreaData("Inserire una data per sapere che eventi ci saranno (dd/mm/yyyy)");
         ProgrammaEventi.StampaListaEventi(EventiInData(data));
+    }
+
+    public void EsportaProgramma()
+    {
+        StreamWriter stream = File.CreateText("programma.csv");
+        stream.WriteLine("titolo,data,capienza massima,posti prenotati,relatore,prezzo");
+
+        foreach (Evento evento in Eventi)
+        {
+            stream.WriteLine(evento.ToExport());
+
+        }
+
+        stream.Close();
     }
 }
 

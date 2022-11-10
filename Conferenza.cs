@@ -70,5 +70,8 @@ public class Conferenza : Evento
         return conferenza;
     }
 
-
+    public override string ToExport()
+    {
+        return Titolo + "," + Data.ToString("dd/MM/yyyy") + "," + MaxPosti + "," + Relatore + "," + Prezzo;
+    }
 }

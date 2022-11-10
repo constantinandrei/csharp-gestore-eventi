@@ -87,10 +87,21 @@ public class Evento
         PostiPrenotati -= posti;
         return true;
     }
-
+    public virtual string ToExport()
+    {
+        return Titolo + "," + Data.ToString("dd/MM/yyyy") + "," + MaxPosti + ",\"\",\"\"";
+    }
     public override string ToString()
     {
         return Data.ToString("dd/MM/yyyy") + " - " + Titolo;
+    }
+
+    public static void StampaConfermaInserimento(Evento evento)
+    {
+        Console.WriteLine("Evento Inserito correttamente");
+        Console.WriteLine(evento.ToString());
+        Console.WriteLine();
+        MyUtilities.Continua();
     }
 
     public static Evento ChiediDatiEvento()
@@ -111,10 +122,7 @@ public class Evento
             }
         }
 
-        Console.WriteLine("Evento Inserito correttamente");
-        Console.WriteLine(evento.ToString());
-        Console.WriteLine();
-        MyUtilities.Continua();
+        
         return evento;
     }
 
@@ -133,10 +141,7 @@ public class Evento
                     PrenotaDisdici("disdire", evento);
                 }
             }
-            Console.WriteLine("Evento Inserito correttamente");
-            Console.WriteLine(evento.ToString());
-            Console.WriteLine();
-            MyUtilities.Continua();
+            Evento.StampaConfermaInserimento(evento);
             return evento;
         }
 
@@ -147,6 +152,7 @@ public class Evento
     {
         
         Evento evento = ChiediDatiEvento();
+        Evento.StampaConfermaInserimento(evento);
         return GestionePostiEvento(evento);
         
     }
