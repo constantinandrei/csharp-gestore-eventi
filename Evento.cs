@@ -90,6 +90,72 @@ public class Evento
     {
         return Data.ToString("dd/MM/yyyy") + " - " + Titolo;
     }
+
+    public static Evento CreaEvento()
+    {
+        string titolo = MyUtilities.Chiedi("Inserisci il nome dell'evento:");
+        string dataStringa = MyUtilities.Chiedi("Inserisci la data dell'evento (gg/mm/yyyy):");
+        DateTime dataEvento = MyUtilities.CreaData(dataStringa);
+        int postiTotali = MyUtilities.ChiediInt("Inserisci il numero di posti totali:");
+
+        Evento evento = new Evento(titolo, dataEvento, postiTotali);
+        // chiedo all'utente se vuole prenotare dei posti 
+
+        if (ChiediPrenotaDisdici("prenotare"))
+        {
+            // chiedo se vuole disdire dei posti e poi sottrago fino a quando non risponde no
+            PrenotaDisdici("prenotare", evento);
+            bool disdire = true;
+            while (disdire)
+            {
+                disdire = ChiediPrenotaDisdici("disdire");
+                if (disdire)
+                {
+                    PrenotaDisdici("disdire", evento);
+                }
+            }
+            evento.ToString();
+            MyUtilities.Continua();
+            return evento;
+        }
+        // se risponde no allora non faccio vedere la schermata della disdetta dei posti
+        evento.ToString();
+        MyUtilities.Continua();
+        return evento;
+    }
+
+    // chiede all'utente se vuole disdire/prenotare e ritorna la risposta in booleano
+    public static bool ChiediPrenotaDisdici(string arg)
+    {
+        string risp = MyUtilities.Chiedi("Vuoi " + arg + " dei posti?(si/no)");
+        if (risp.Equals("si"))
+            return true;
+        return false;
+    }
+
+    // chiede all'utente quanti posti vuole disdire/prenotare e poi stampa i posti
+    public static void PrenotaDisdici(string arg, Evento evento)
+    {
+        int risp = MyUtilities.ChiediInt("Quanti posti vuoi " + arg + "?");
+        if (arg.Equals("prenotare"))
+        {
+            evento.PrenotaPosti(risp);
+        }
+
+        if (arg.Equals("disdire"))
+        {
+            evento.DisdiciPosti(risp);
+        }
+
+        StampaPosti(evento);
+    }
+
+    // stampa lo stato dei posti di un evento
+    public static void StampaPosti(Evento evento)
+    {
+        Console.WriteLine("Numero di posti prenotati = {0}", evento.PostiPrenotati);
+        Console.WriteLine("Numero di posti disponibili = {0}", evento.PostiDisponibili());
+    }
 }
 
 

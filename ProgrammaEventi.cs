@@ -59,8 +59,53 @@ public class ProgrammaEventi
 
     public void StampaProgramma()
     {
+        Console.WriteLine();
         Console.WriteLine(Titolo);
         StampaListaEventi(Eventi);
+    }
+
+    public static void CreaProgramma()
+    {
+        Console.Clear();
+        string nomeProgramma = null;
+        ProgrammaEventi programma = null;
+        while (programma == null)
+        {
+            try
+            {
+                nomeProgramma = MyUtilities.Chiedi("Inserisci il nome del Programma eventi:");
+                programma = new ProgrammaEventi(nomeProgramma);
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                MyUtilities.Continua();
+            }
+        }
+        new ProgrammaEventi(nomeProgramma);
+        int numeroEventi = MyUtilities.ChiediInt("Quanti eventi vuoi aggiungere al tuo programma?");
+        while (programma.Eventi.Count < numeroEventi)
+        {
+            Console.Clear();
+            Console.WriteLine("Inserimento eventi per il programma: {0}", programma.Titolo);
+            foreach (Evento evento in programma.Eventi)
+            {
+                evento.ToString();
+            }
+            try
+            {
+                Console.WriteLine();
+                Console.WriteLine("Inserimento evento {0} / {1}", programma.Eventi.Count() + 1, numeroEventi);
+                Evento evento = Evento.CreaEvento();
+                programma.AggiungiEvento(evento);
+            } catch (Exception e){
+                Console.WriteLine(e.Message);
+                MyUtilities.Continua();
+            }
+        }
+
+        programma.StampaProgramma();
+        MyUtilities.Continua();
+
     }
 }
 
