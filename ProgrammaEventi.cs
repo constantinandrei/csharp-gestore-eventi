@@ -110,8 +110,18 @@ public class ProgrammaEventi
 
         Console.WriteLine("Il numero dei eventi in programma è: {0}", programma.Eventi.Count());
         programma.StampaProgramma();
+
+        programma.StampaEventiPerData();
+
         MyUtilities.Continua();
 
+    }
+
+    public void StampaEventiPerData()
+    {
+        string dataStringa = MyUtilities.Chiedi("Inserire una data per sapere che eventi ci saranno");
+        DateTime data = MyUtilities.CreaData(dataStringa);
+        ProgrammaEventi.StampaListaEventi(EventiInData(data));
     }
 }
 
