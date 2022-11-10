@@ -64,6 +64,17 @@ public class ProgrammaEventi
         StampaListaEventi(Eventi);
     }
 
+    public static void ImportaSiNo()
+    {
+        if (MyUtilities.SiNo("Vuoi importare il programma precedente?"))
+        {
+            ImportaProgramma();
+        } else
+        {
+            CreaProgramma();
+        }
+    }
+
     public static void CreaProgramma()
     {
         Console.Clear();
@@ -138,7 +149,7 @@ public class ProgrammaEventi
 
     public void EsportaProgramma()
     {
-        StreamWriter stream = File.CreateText("programma.csv");
+        StreamWriter stream = File.CreateText("C:\\Users\\andre\\source\\experis4\\csharp-gestore-eventi\\programma.csv");
         stream.WriteLine("titolo,data,capienza massima,posti prenotati,relatore,prezzo");
 
         foreach (Evento evento in Eventi)
@@ -148,6 +159,44 @@ public class ProgrammaEventi
         }
 
         stream.Close();
+    }
+
+    public static void ImportaProgramma()
+    {
+        ProgrammaEventi programma = new ProgrammaEventi(MyUtilities.Chiedi("Inserire il nome del programma"));
+        StreamReader stream = File.OpenText("C:\\Users\\andre\\source\\experis4\\csharp-gestore-eventi\\programma.csv");
+        stream.ReadLine();
+
+        while (!stream.EndOfStream)
+        {
+            string[] values = stream.ReadLine().Split(',');
+            string titolo = values[0];
+            string data = values[1];
+            int day = Convert.ToInt32(data.Substring(0, 2));
+            int month = Convert.ToInt32(data.Substring(3, 2));
+            int year = Convert.ToInt32(data.Substring(6, 4));
+            DateTime nuovaData = new DateTime(year, month, day);
+            int maxPosti = Convert.ToInt32(values[2]);
+            if (values[3].Equals("-") && values[4].Equals("-"))
+            {
+                Evento evento = new Evento(titolo, nuovaData, maxPosti);
+                programma.AggiungiEvento(evento);
+            } else
+            {
+                string relatore = values[3];
+                double prezzo = Convert.ToDouble(values[4]);
+
+                Conferenza conferenza = new Conferenza(titolo, nuovaData, maxPosti, relatore, prezzo);
+                programma.AggiungiEvento(conferenza);
+            }
+            
+   
+        }
+
+        stream.Close();
+
+        programma.StampaProgramma();
+        MyUtilities.Continua();
     }
 }
 

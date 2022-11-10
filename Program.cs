@@ -15,7 +15,7 @@ while (!userChoise.Equals("esc"))
             Evento.CreaEvento();
             break;
         case "2":
-            ProgrammaEventi.CreaProgramma();
+            ProgrammaEventi.ImportaSiNo();
             break;
         default:
             if (!userChoise.Equals("esc"))

@@ -89,7 +89,7 @@ public class Evento
     }
     public virtual string ToExport()
     {
-        return Titolo + "," + Data.ToString("dd/MM/yyyy") + "," + MaxPosti + ",\"\",\"\"";
+        return Titolo + "," + Data.ToString("dd/MM/yyyy") + "," + MaxPosti + ",-,-";
     }
     public override string ToString()
     {
