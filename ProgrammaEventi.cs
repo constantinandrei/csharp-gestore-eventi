@@ -87,10 +87,15 @@ public class ProgrammaEventi
         {
             Console.Clear();
             Console.WriteLine("Inserimento eventi per il programma: {0}", programma.Titolo);
-            foreach (Evento evento in programma.Eventi)
-            {
-                evento.ToString();
+            if (programma.Eventi.Count > 0){
+                Console.WriteLine("Eventi già inseriti:");
+
+                foreach (Evento evento in programma.Eventi)
+                {
+                    Console.WriteLine(evento.ToString());
+                }
             }
+            
             try
             {
                 Console.WriteLine();
@@ -103,6 +108,7 @@ public class ProgrammaEventi
             }
         }
 
+        Console.WriteLine("Il numero dei eventi in programma è: {0}", programma.Eventi.Count());
         programma.StampaProgramma();
         MyUtilities.Continua();
 
