@@ -65,25 +65,27 @@ public class Evento
     {
         return MaxPosti - PostiPrenotati;
     }
-    public void PrenotaPosti(int posti)
+    public bool PrenotaPosti(int posti)
     {
         if (DateTime.Now > Data)
             throw new GestoreEventiException("Questo evento è già terminato, non è più possibile prenotare posti");
         if (PostiDisponibili() < posti)
             throw new GestoreEventiException("Non ci sono abbastanza posti diponibili per questo evento");
         PostiPrenotati += posti;
+        return true;
     }
 
-    public void DisdiciPosti(int posti)
+    public bool DisdiciPosti(int posti)
     {
-        if (posti < 1)
-            throw new GestoreEventiException("Il numero di posti deve essere almeno 1");
+        if (posti < 0)
+            throw new GestoreEventiException("Il numero di posti da disdire non può essere negativo");
         if (DateTime.Now > Data)
                throw new GestoreEventiException("Questo evento è già terminato, non è più possibile disdire le prenotazioni");
         if (PostiPrenotati < posti)
             throw new GestoreEventiException("Non è possibilie disdire più posti di quelli prenotati");
         
         PostiPrenotati -= posti;
+        return true;
     }
 
     public override string ToString()
@@ -155,16 +157,28 @@ public class Evento
     // chiede all'utente quanti posti vuole disdire/prenotare e poi stampa i posti
     public static void PrenotaDisdici(string arg, Evento evento)
     {
-        int risp = MyUtilities.ChiediInt("Quanti posti vuoi " + arg + "?");
-        if (arg.Equals("prenotare"))
+        bool operazioneEffettuata = false;
+        while (!operazioneEffettuata)
         {
-            evento.PrenotaPosti(risp);
+            try
+            {
+                int risp = MyUtilities.ChiediInt("Quanti posti vuoi " + arg + "?");
+                if (arg.Equals("prenotare"))
+                {
+                   operazioneEffettuata = evento.PrenotaPosti(risp);
+                }
+
+                if (arg.Equals("disdire"))
+                {
+                   operazioneEffettuata = evento.DisdiciPosti(risp);
+                }
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
-        if (arg.Equals("disdire"))
-        {
-            evento.DisdiciPosti(risp);
-        }
+        
 
         StampaPosti(evento);
     }
