@@ -28,7 +28,7 @@ public class Evento
         }
         set
         {
-            if (DateTime.Now > value)
+            if (value.Date < DateTime.Now.Date)
                 throw new GestoreEventiException("Non è possibile inserire un evento in una data passata");
             _data = value;
         }
