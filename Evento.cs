@@ -114,12 +114,16 @@ public class Evento
                     PrenotaDisdici("disdire", evento);
                 }
             }
-            evento.ToString();
+            Console.WriteLine("Evento Inserito correttamente");
+            Console.WriteLine(evento.ToString());
+            Console.WriteLine();
             MyUtilities.Continua();
             return evento;
         }
         // se risponde no allora non faccio vedere la schermata della disdetta dei posti
-        evento.ToString();
+        Console.WriteLine("Evento Inserito correttamente");
+        Console.WriteLine(evento.ToString());
+        Console.WriteLine();
         MyUtilities.Continua();
         return evento;
     }
